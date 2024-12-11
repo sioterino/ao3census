@@ -16,5 +16,14 @@ class Parse:
             authors.append(author_names)
         return authors
 
+    def get_fandoms(work_list: list) -> list:
+        fandoms: list = []
+        for work in work_list:
+            fandom_tags: list = work.find('div', class_='header module').find('h5', class_='fandoms heading').find_all('a')
+            fandom_names = [fandom.text for fandom in fandom_tags]
+            fandoms.append(fandom_names)
+        print(fandoms)
+        return fandoms
+
 if __name__ == '__main__':
     print()

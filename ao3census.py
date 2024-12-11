@@ -14,6 +14,7 @@ from datetime import datetime
 
 all_titles: list = []
 all_authors: list = []
+all_fandoms: list = []
 
 df_works: DataFrame = pd.DataFrame(columns=['title', 'authors', 'fandoms', 'rating', 'warnings', 'orientation',
                                             'status', 'update', 'tags', 'language', 'words', 'chapters',
@@ -107,11 +108,16 @@ def parse_into_df(soup: BeautifulSoup) -> dict:
     for author in page_authors:
         all_authors.append(author)
 
-    return {'title': all_titles, 'authors': all_authors}
+    global all_fandoms
+    page_fandoms: list = Parse.get_fandoms(work_list)
+    for fandom in page_fandoms:
+        all_fandoms.append(fandom)
+
+    return {'title': all_titles, 'authors': all_authors, 'fandoms': all_fandoms}
 
 
 def save_dataframe(dict_works: dict, fandom: str):
-    file_name = f"./results/works_{fandom}_{datetime.now().strftime("%Y%m%d")}.csv"
+    file_name = f"./results/works_{fandom}_{datetime.now().strftime('%Y%m%d')}.csv"
     global df_works
     df_works = pd.concat([df_works, pd.DataFrame(dict_works)], ignore_index=True)
     df_works.to_csv(file_name, index=False, encoding="utf-8")
@@ -131,7 +137,9 @@ def main():
         pbar.set_description(f'Fetching page {page}')
         soup = get_html_of_page(fandom=fandom, category=band, is_session=True, session=session, page=page)
         dict_works: dict = parse_into_df(soup)
-        save_dataframe(dict_works, fandom)
+        print("\n\n\n")
+        print(dict_works)
+        # save_dataframe(dict_works, fandom)
         sleep(random.randrange(6, 10))
 
     session.close()
