@@ -8,6 +8,7 @@ from tqdm import tqdm
 
 from time import sleep
 import random
+import os
 
 from interface import Interface
 from scrape import Login
@@ -37,6 +38,9 @@ def debugging():
 
 
 def scrape_ao3():
+    if not os.path.exists(DfUtils.result_dir()):
+        os.makedirs(DfUtils.result_dir())
+
     session: Session = requests.Session()
     user_data['login'] and Login.try_logging_in(session, user_data['username'], user_data['password'], login_limit)
 
@@ -44,7 +48,7 @@ def scrape_ao3():
     print(f"Fetching works from url: {url}")
     soup_html: BeautifulSoup = GetPage.get_html_of_page(session=session, url=url)
     pages_number: int = PageUtils.get_number_of_pages(soup_html)
-    print(pages_number)
+    print(f'fandom pages: {pages_number}')
 
     original_fandom_tag: str = PageUtils.get_original_fandom_name(soup_html)
     fandom_data: dict = Utils.initialize_fandom_data()
@@ -71,7 +75,7 @@ def scrape_ao3():
     user_data['file_path']: str = DfUtils.file_name(user_data['fandom'])
     Dataframe.save_dataframe(page_data=fandom_data, file_name=user_data['file_path'], df_works=df_works)
     session.close()
-    print("\n\n\ndone")
+    print("\ndone")
 
 
 if __name__ == '__main__':
@@ -87,4 +91,4 @@ if __name__ == '__main__':
         df_works = pd.read_csv(user_data['file_path'])
 
     except KeyboardInterrupt:
-        print("\n\nGracefully exiting...\n\n")
+        print("\nGracefully exiting...\n")

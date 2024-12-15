@@ -29,9 +29,9 @@ class Login:
             if attempts <= login_limit:
                 Login.login(session, username, password)
                 attempts += 1
-                print(attempts)
+                print(f'login attempts: {attempts}')
             else:
-                print('didnt logged in')
+                print('failed to log in')
                 break
 
             response_test: Response = session.get(f"https://archiveofourown.org/users/{username}/readings")
@@ -40,7 +40,7 @@ class Login:
                 is_logged_in = False
                 continue
 
-            print('logged in')
+            print('successfully logged in')
             is_logged_in = True
 
 
