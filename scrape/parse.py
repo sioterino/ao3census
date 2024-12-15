@@ -1,7 +1,8 @@
-from bs4 import BeautifulSoup, Tag
+from bs4 import BeautifulSoup
 
 
 class Parse:
+    @staticmethod
     def get_titles(work_list: list) -> list[str]:
         titles: list[str] = []
         for work in work_list:
@@ -9,6 +10,7 @@ class Parse:
             titles.append(title)
         return titles
 
+    @staticmethod
     def get_authors(work_list: list) -> list[str]:
         authors: list = []
         for work in work_list:
@@ -16,6 +18,7 @@ class Parse:
             authors.append([author.text for author in author_tags])
         return authors
 
+    @staticmethod
     def get_fandoms(work_list: list, fandom_name: str) -> list[str]:
         fandoms: list = []
         for work in work_list:
@@ -23,35 +26,35 @@ class Parse:
             fandoms.append([fandom.text for fandom in fandom_tags])
         return remove_original_fandom(fandoms, fandom_name)
 
-
+    @staticmethod
     def get_ratings(work_list: list) -> list[str]:
         ratings: list[str] = []
         for work in work_list:
             ratings.extend(get_required_tags(work)[0])
         return ratings
 
-
+    @staticmethod
     def get_warnings(work_list: list) -> list[str]:
         warnings: list[str] = []
         for work in work_list:
             warnings.append(get_required_tags(work)[1])
         return warnings
 
-
+    @staticmethod
     def get_orientations(work_list: list) -> list[str]:
         orientations: list[str] = []
         for work in work_list:
             orientations.append(get_required_tags(work)[2])
         return orientations
 
-
+    @staticmethod
     def get_status(work_list: list) -> list[str]:
         status: list[str] = []
         for work in work_list:
             status.extend(get_required_tags(work)[3])
         return status
 
-
+    @staticmethod
     def get_updates(work_list: list) -> list[str]:
         updates: list[str] = []
         for work in work_list:
@@ -59,7 +62,7 @@ class Parse:
             updates.append(update)
         return updates
 
-
+    @staticmethod
     def get_ships(work_list: list) -> list[str]:
         ships: list = []
         for work in work_list:
@@ -67,7 +70,7 @@ class Parse:
             ships.append([ship.text for ship in ship_tags])
         return ships
 
-
+    @staticmethod
     def get_chars(work_list: list) -> list[str]:
         chars: list = []
         for work in work_list:
@@ -75,7 +78,7 @@ class Parse:
             chars.append([ship.text for ship in char_tags])
         return chars
 
-
+    @staticmethod
     def get_freeform_tags(work_list: list) -> list[str]:
         tags: list = []
         for work in work_list:
@@ -83,7 +86,7 @@ class Parse:
             tags.append([ship.text for ship in tag_tags])
         return tags
 
-
+    @staticmethod
     def get_language(work_list: list) -> list[str]:
         languages: list = []
         for work in work_list:
@@ -91,7 +94,7 @@ class Parse:
             languages.append(language)
         return languages
 
-
+    @staticmethod
     def get_words(work_list: list) -> list[int]:
         words: list[int] = []
         for work in work_list:
@@ -100,7 +103,7 @@ class Parse:
             words.append(str2int(word))
         return words
 
-
+    @staticmethod
     def get_chapters(work_list: list) -> list[int]:
         chapters: list[int] = []
         for work in work_list:
@@ -109,7 +112,7 @@ class Parse:
             chapters.append(str2int(chaps.split('/')[0]))
         return chapters
 
-
+    @staticmethod
     def get_collections(work_list: list) -> list[int]:
         collections: list[int] = []
         for work in work_list:
@@ -118,7 +121,7 @@ class Parse:
             collections.append(str2int(collect))
         return collections
 
-
+    @staticmethod
     def get_comments(work_list: list) -> list[int]:
         comments: list[int] = []
         for work in work_list:
@@ -127,7 +130,7 @@ class Parse:
             comments.append(str2int(comment))
         return comments
 
-
+    @staticmethod
     def get_kudos(work_list: list) -> list[int]:
         kudos: list[int] = []
         for work in work_list:
@@ -136,7 +139,7 @@ class Parse:
             kudos.append(str2int(kud))
         return kudos
 
-
+    @staticmethod
     def get_bookmarks(work_list: list) -> list[int]:
         bookmarks: list[int] = []
         for work in work_list:
@@ -145,7 +148,7 @@ class Parse:
             bookmarks.append(str2int(mark))
         return bookmarks
 
-
+    @staticmethod
     def get_hits(work_list: list) -> list[int]:
         hits: list[int] = []
         for work in work_list:
@@ -154,7 +157,7 @@ class Parse:
             hits.append(str2int(hit))
         return hits
 
-
+    @staticmethod
     def get_series(work_list: list) -> list[str]:
         series: list[str] = []
         for work in work_list:
