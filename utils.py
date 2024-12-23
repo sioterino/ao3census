@@ -1,6 +1,6 @@
 from bs4 import BeautifulSoup, ResultSet
 
-from datetime import datetime
+from datetime import datetime, timedelta
 import os
 import re
 
@@ -41,6 +41,40 @@ class Utils:
         _, ext = os.path.splitext(file_path)
         return ext.lower() in reader
 
+    @staticmethod
+    def int2str(num: int) -> str:
+        num_str: str = str(num)[::-1]
+        parts = [num_str[i:i+3] for i in range(0, len(num_str), 3)]
+
+        return '.'.join(parts)[::-1]
+
+    @staticmethod
+    def seconds_to_time(seconds: int):
+        time_units = [
+            ("year", 60 * 60 * 24 * 365),
+            ("month", 60 * 60 * 24 * 30),
+            ("week", 60 * 60 * 24 * 7),
+            ("day", 60 * 60 * 24),
+            ("hour", 60 * 60),
+            ("minute", 60),
+            ("second", 1),
+        ]
+
+        time_strings = []
+        for unit, duration in time_units:
+            value = seconds // duration
+            seconds %= duration
+            if value > 0:
+                unit_str = f"{value} {unit}{'s' if value > 1 else ''}"
+                time_strings.append(unit_str)
+
+        return " ".join(time_strings)
+
+    @staticmethod
+    def order_dict_by_value(dictionary: dict):
+        return {k: v for k, v in sorted(dictionary.items(), key=lambda item: item[1], reverse=True)}
+
+
 
 class PageUtils:
     @staticmethod
@@ -74,3 +108,8 @@ class DfUtils:
     @staticmethod
     def result_dir() -> str:
         return f'{os.getcwd()}{'/' if os.name == 'posix' else '\\'}results{'/' if os.name == 'posix' else '\\'}'
+
+
+if __name__ == '__main__':
+    a = Utils.seconds_to_time(1)
+    print(a)

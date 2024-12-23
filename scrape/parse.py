@@ -125,8 +125,8 @@ class Parse:
     def get_comments(work_list: list) -> list[int]:
         comments: list[int] = []
         for work in work_list:
-            comment: str = work.find('dl', class_='stats').find('dd', class_='words').text \
-                if work.find('dl', class_='stats').find('dd', class_='words') else '0'
+            comment: str = work.find('dl', class_='stats').find('dd', class_='comments').text \
+                if work.find('dl', class_='stats').find('dd', class_='comments') else '0'
             comments.append(str2int(comment))
         return comments
 
